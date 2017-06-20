@@ -7,6 +7,7 @@ int getNumber (char  **str)
   int baseDecimal = 10;
   int baseHex = 16;
   char *ptr;
+  char *detectHex;
   long int val;
 
   ptr = *str;
@@ -17,22 +18,32 @@ int getNumber (char  **str)
       val = strtol(ptr, &endptr, baseDecimal);
       printf ("getNumber val = '%x'\n\n", val);
       printf("endptr = %s\n", endptr);
-      if(*ptr == '0')
+      if (*endptr == 'x')  //example 00x, 11x, ...
       {
-        if(*endptr == 'x')
-        {
-          val = strtol(ptr, &endptr, baseHex);
-          printf ("getNumber val 16 = '%x'\n\n", val);
-          printf("endptr 16= %s\n", endptr);
-        }
+        return -1;
       }
       *str = endptr;
         getNumber(str);
     }
     else 
     {
-    /* Non-digit: suffix not found yet */ 
-    val = strtol(ptr, &endptr, 0);
+      detectHex = ptr;
+      /* Non-digit: suffix not found yet */ 
+      val = strtol(ptr, &endptr, 0);
+      if(*detectHex == ' ' || *detectHex == '\t')
+      {
+        (*detectHex++);
+        if(*detectHex == '0')
+        {
+          (*detectHex++);
+          if(*detectHex == 'x'){
+            val = strtol(ptr, &endptr, baseHex);
+            printf ("getNumber val 16 = '%x'\n\n", val);
+            printf("endptr 16= %s\n", endptr);
+          }
+        }
+      }
+
     if(ptr == endptr)
     {
       printf("ERR: cannot be covert %s to long int\r\n\n", endptr);
