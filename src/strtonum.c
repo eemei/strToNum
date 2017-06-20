@@ -3,6 +3,8 @@
 
 int getNumber (char  **str)
 {
+  errno = 0;
+
   char *endptr;  //end pointer  
   int baseDecimal = 10;
   int baseHex = 16;
@@ -16,8 +18,8 @@ int getNumber (char  **str)
     if (isdigit((unsigned char)*ptr)) 
     {
       val = strtol(ptr, &endptr, baseDecimal);
-      printf ("getNumber val = '%x'\n\n", val);
-      printf("endptr = %s\n", endptr);
+      // printf ("getNumber val = '%x'\n\n", val);
+      // printf("endptr = %s\n", endptr);
       if(*ptr == '0')
       {
         detectHex = ptr;
@@ -25,6 +27,11 @@ int getNumber (char  **str)
         if (*detectHex == 'x')  //example 0x,...
         {
           val = strtol(ptr, &endptr, baseHex);
+          if ((val == LONG_MAX || val == LONG_MIN) && errno == ERANGE)
+          {
+            return -1;
+    // out of range, handle or exit
+          }
           return val;
         }
         else
@@ -34,7 +41,7 @@ int getNumber (char  **str)
       }
       else
       {
-        if(*endptr == 'x')
+        if(*endptr == 'x')   //example 00x, 12345668x
         {
           return -1;
         }
@@ -54,7 +61,7 @@ int getNumber (char  **str)
         if(*detectHex == '0')
         {
           (*detectHex++);
-          if(*detectHex == 'x'){
+          if(*detectHex == 'x'){                          //' 0x' , '  0x' 
             val = strtol(ptr, &endptr, baseHex);
             // printf ("getNumber val 16 = '%x'\n\n", val);
             // printf("endptr 16= %s\n", endptr);
@@ -65,7 +72,7 @@ int getNumber (char  **str)
 
     if(ptr == endptr)
     {
-      printf("ERR: cannot be covert %s to long int\r\n\n", endptr);
+      printf("ERR: cannot be convert '%s' to long int\r\n\n", endptr);
       return -1;
     }
      (*ptr++);
@@ -75,5 +82,11 @@ int getNumber (char  **str)
   }
   else{
     printf ("getNumber val return = '%x'\n\n", val);
+    return -1;
   }
 }  
+
+
+int loop(char **str){
+
+}

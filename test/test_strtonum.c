@@ -182,6 +182,20 @@ void test_getNumber_given_1234_expert_1234(void)
   TEST_ASSERT_EQUAL(1234, val);
 } 
 
+void test_getNumber_given_0xffffffffff_expert_overflow(void)   
+{
+  char *str = "0xffffffffff";
+  long val = getNumber(&str);
+  TEST_ASSERT_EQUAL(-1, val);
+} 
+
+// void test_getNumber_given_0x123_123_expert_overflow(void)   
+// {
+  // char *str = "0x123 123";
+    // loop(&str);
+  // TEST_ASSERT_EQUAL(-1, val);
+// } 
+
  
  
  

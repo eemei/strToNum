@@ -8,5 +8,5 @@
 
 int getNumber(char  **str);
 int getnum(const char *str);
-
+int loop(char **str);
 #endif // _strtonum_H
