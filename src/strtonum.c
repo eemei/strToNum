@@ -20,7 +20,9 @@ int getNumber (char  **str)
       printf("endptr = %s\n", endptr);
       if(*ptr == '0')
       {
-        if (*endptr == 'x')  //example 0x,...
+        detectHex = ptr;
+        (*detectHex++);
+        if (*detectHex == 'x')  //example 0x,...
         {
           val = strtol(ptr, &endptr, baseHex);
           return val;
