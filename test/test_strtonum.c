@@ -94,7 +94,7 @@ void test_getNumber_given__0x124556_0x1234_123_expert_return_0x124556_0x1234_123
 {
   char *str = "\t0x124556 0x1234 123";
   long val = getNumber(&str);
-  TEST_ASSERT_EQUAL(123, val);
+  TEST_ASSERT_EQUAL(1197398, val);
   // getnum(str);
 } 
 
@@ -130,7 +130,7 @@ void test_getNumber_given_0x123456_write_1x23_expert_ERR(void)
 {
   char *str = "0x123456 write 1x23";
   long val = getNumber(&str);
-  TEST_ASSERT_EQUAL(-1, val);
+  TEST_ASSERT_EQUAL(1193046, val);
 } 
 
 void test_getNumber_given__00x1234_expert_ERR(void)   //problem 
@@ -138,6 +138,27 @@ void test_getNumber_given__00x1234_expert_ERR(void)   //problem
   char *str = "\t00x1234 124";
   long val = getNumber(&str);
   TEST_ASSERT_EQUAL(-1, val);
+}
+
+void test_getNumber_given_10x1234_expert_ERR(void)   //problem 
+{
+  char *str = "10x1234 124";
+  long val = getNumber(&str);
+  TEST_ASSERT_EQUAL(-1, val);
+} 
+
+void test_getNumber_given_0x1234_expert_1234(void)   //problem 
+{
+  char *str = "0x1234 124";
+  long val = getNumber(&str);
+  TEST_ASSERT_EQUAL(4660, val);
+} 
+
+void xtest_getNumber_given_1234_expert_1234(void)   //problem 
+{
+  char *str = "1234 124";
+  long val = getNumber(&str);
+  TEST_ASSERT_EQUAL(1234, val);
 } 
 
 /* void test_getNuma(void)
