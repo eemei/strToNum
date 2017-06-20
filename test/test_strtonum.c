@@ -175,21 +175,13 @@ void test_getNumber_given_0x1234_expert_4660(void)
   TEST_ASSERT_EQUAL(4660, val);
 } 
 
-void xtest_getNumber_given_1234_expert_1234(void)   
+void test_getNumber_given_1234_expert_1234(void)   
 {
   char *str = "1234 124";
   long val = getNumber(&str);
   TEST_ASSERT_EQUAL(1234, val);
 } 
 
-/* void test_getNuma(void)
-{
-  int i = sum (123);
-  // TEST_ASSERT_EQUAL(1197398, val);
-  // getnum(str);
-} */
-
- 
  
  
  
