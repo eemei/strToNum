@@ -27,7 +27,19 @@ int getNumber (char  **str)
           val = strtol(ptr, &endptr, baseHex);
           return val;
         }
+        else
+        {
+          return -1;
+        }
       }
+      else
+      {
+        if(*endptr == 'x')
+        {
+          return -1;
+        }
+      }
+      return val;
       *str = endptr;
       getNumber(str);
     }
@@ -44,8 +56,9 @@ int getNumber (char  **str)
           (*detectHex++);
           if(*detectHex == 'x'){
             val = strtol(ptr, &endptr, baseHex);
-            printf ("getNumber val 16 = '%x'\n\n", val);
-            printf("endptr 16= %s\n", endptr);
+            // printf ("getNumber val 16 = '%x'\n\n", val);
+            // printf("endptr 16= %s\n", endptr);
+            return val;
           }
         }
       }
@@ -62,6 +75,5 @@ int getNumber (char  **str)
   }
   else{
     printf ("getNumber val return = '%x'\n\n", val);
-    return val;
   }
 }  
