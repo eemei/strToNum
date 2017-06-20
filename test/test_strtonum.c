@@ -119,6 +119,26 @@ void test_getNumber_given__0x123456_write_expert_ERR(void)
   TEST_ASSERT_EQUAL(-1, val);
 } 
 
+void test_getNumber_given__1x123456_write_expert_ERR(void)
+{
+  char *str = "/t1x123456 write";
+  long val = getNumber(&str);
+  TEST_ASSERT_EQUAL(-1, val);
+} 
+
+void test_getNumber_given_0x123456_write_1x23_expert_ERR(void)
+{
+  char *str = "0x123456 write 1x23";
+  long val = getNumber(&str);
+  TEST_ASSERT_EQUAL(-1, val);
+} 
+
+void test_getNumber_given__00x1234_expert_ERR(void)   //problem 
+{
+  char *str = "\t00x1234";
+  long val = getNumber(&str);
+  TEST_ASSERT_EQUAL(-1, val);
+} 
 
 /* void test_getNuma(void)
 {
