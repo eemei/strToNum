@@ -110,7 +110,7 @@ void test_string_compare_insensitive_given_write_and_write(void){
 }
 
 
-/*void test_getNumber_given_1234_234_123_expert_return_1234_234_123(void)
+/*void test_getNumber_given_1234_234_123_expect_return_1234_234_123(void)
 {
   char str[] = "1234 234 123";
   char *endptr = str;
@@ -123,7 +123,7 @@ void test_string_compare_insensitive_given_write_and_write(void){
   TEST_ASSERT_EQUAL(123, val);
 } 
 
-void test_getNumber_given__1234_234__expert_return_1234_234(void)
+void test_getNumber_given__1234_234__expect_return_1234_234(void)
 {
   char str[] = "\t1234 234";
   char *endptr = str;
@@ -135,7 +135,7 @@ void test_getNumber_given__1234_234__expert_return_1234_234(void)
   TEST_ASSERT_EQUAL(234, val);
 } 
 
-void test_getNumber_given__1234_write_234__expert_return_1234_234(void)
+void test_getNumber_given__1234_write_234__expect_return_1234_234(void)
 {
   char str[] = "\t1234 write 234";
   char *endptr = str;
@@ -147,7 +147,7 @@ void test_getNumber_given__1234_write_234__expert_return_1234_234(void)
   TEST_ASSERT_EQUAL(234, val);
 } 
 
-void test_getNumber_given_0x1234_write_234__expert_return_0x1234_234(void)
+void test_getNumber_given_0x1234_write_234__expect_return_0x1234_234(void)
 {
   char str[] = "0x1234 write 234";
   char *endptr = str;
@@ -159,7 +159,7 @@ void test_getNumber_given_0x1234_write_234__expert_return_0x1234_234(void)
   TEST_ASSERT_EQUAL(234, val);
 }
 
-void test_getNumber_given_20x1234_write_234__expert_return_234(void)
+void test_getNumber_given_20x1234_write_234__expect_return_234(void)
 {
   char str[] = "20x1234 write 234";
   char *endptr = str;
@@ -171,7 +171,7 @@ void test_getNumber_given_20x1234_write_234__expert_return_234(void)
   TEST_ASSERT_EQUAL(234, val);
 }
 
-void test_getNumber_given_00000x1234_write_234__expert_return_234(void)
+void test_getNumber_given_00000x1234_write_234__expect_return_234(void)
 {
   char str[] = "00000x1234 write 234";
   char *endptr = str;
@@ -183,7 +183,7 @@ void test_getNumber_given_00000x1234_write_234__expert_return_234(void)
   TEST_ASSERT_EQUAL(234, val);
 }
 
-void test_getNumber_given__00000x1234_write__234__expert_return_234(void)
+void test_getNumber_given__00000x1234_write__234__expect_return_234(void)
 {
   char str[] = "\t00000x1234 write \t234";
   char *endptr = str;
@@ -195,7 +195,7 @@ void test_getNumber_given__00000x1234_write__234__expert_return_234(void)
   TEST_ASSERT_EQUAL(234, val);
 }
 
-void test_getNumber_given__0002300x1234_write__234__expert_return_234(void)
+void test_getNumber_given__0002300x1234_write__234__expect_return_234(void)
 {
   char str[] = "\t0002300x1234 write \t234";
   char *endptr = str;
@@ -207,7 +207,7 @@ void test_getNumber_given__0002300x1234_write__234__expert_return_234(void)
   TEST_ASSERT_EQUAL(234, val);
 } 
 
-void test_getNumber_given__0xffffffffff__write__234__expert_return_234(void)
+void test_getNumber_given__0xffffffffff__write__234__expect_return_234(void)
 {
   char str[] = "\t0xffffffffff \twrite \t234";
   char *endptr = str;
@@ -218,7 +218,7 @@ void test_getNumber_given__0xffffffffff__write__234__expert_return_234(void)
   val = getNumber(&endptr);
   TEST_ASSERT_EQUAL(234, val);
 } 
-void test_getNumber_given__ffffffffff__write__234__expert_return_234(void)
+void test_getNumber_given__ffffffffff__write__234__expect_return_234(void)
 {
   char str[] = "\tffffffffff \twrite \t234";
   char *endptr = str;
@@ -258,93 +258,46 @@ void test_loop_with_3(void)
   TEST_ASSERT_EQUAL(2,val);
 } 
 
-void test_getNumber_given_write_expert_ERR(void)
+/* void test_getNumber_given_write_expect_ERR(void)
 {
   char *str = "write";
   long val = getNumber(&str);
   TEST_ASSERT_EQUAL(-1, val);
-} 
+}  */
 
-void test_getNumber_given_write__0x123456_expert_ERR(void)
+/* void test_getNumber_given_write__0x123456_expect_ERR(void)
 {
   char *str = "write\t0x123456";
   long val = getNumber(&str);
   TEST_ASSERT_EQUAL(-1, val);
-} 
+}  */
 
-void test_getNumber_given__0x123456_write_expert_ERR(void)
+void test_getNumber_given__0x123456_write_expect_ERR(void)
 {
   char *str = "\t0x123456 write";
   long val = getNumber(&str);
-  TEST_ASSERT_EQUAL(1193046, val);
+  TEST_ASSERT_EQUAL(1193046, val);  
+  val = getNumber(&str);
+  TEST_ASSERT_EQUAL(-1, val);
 } 
 
-void test_getNumber_given__1x123456_write_expert_ERR(void)
+void test_getNumber_given__1x123456_write_expect_ERR(void)
 {
   char *str = "\t1x123456 write";
   long val = getNumber(&str);
   TEST_ASSERT_EQUAL(-1, val);
 } 
 
-void test_getNumber_given_0x123456_write_1x23_expert_0x123456(void)
-{
-  char *str = "0x123456 write 1x23";
-  long val = getNumber(&str);
-  TEST_ASSERT_EQUAL(1193046, val);
-} 
-
-void test_getNumber_given__00x1234_expert_ERR(void)   
-{
-  char *str = "\t00x1234 124";
-  long val = getNumber(&str);
-  TEST_ASSERT_EQUAL(-1, val);
-}
-
-void test_getNumber_given__02x1234_expert_ERR(void)    
-{
-  char *str = "\t02x1234 124";
-  long val = getNumber(&str);
-  TEST_ASSERT_EQUAL(-1, val);
-}
-
-void test_getNumber_given_10x1234_expert_ERR(void)   
-{
-  char *str = "10x1234 124";
-  long val = getNumber(&str);
-  TEST_ASSERT_EQUAL(-1, val);
-} 
-
-void test_getNumber_given_0x1_expert_1(void)   
+void test_getNumber_given_0x1_expect_1(void)   
 {
   char *str = "0x1";
   long val = getNumber(&str);
   TEST_ASSERT_EQUAL(1, val);
 } 
 
-void test_getNumber_given_20x1234_expert_ERR(void)   
+void test_getNumber_given_20x1234_expect_ERR(void)   
 {
   char *str = "20x1234 124";
-  long val = getNumber(&str);
-  TEST_ASSERT_EQUAL(-1, val);
-} 
-
-void test_getNumber_given_0x1234_expert_4660(void)  
-{
-  char *str = "0x1234 124";
-  long val = getNumber(&str);
-  TEST_ASSERT_EQUAL(4660, val);
-} 
-
-void test_getNumber_given_1234_expert_1234(void)   
-{
-  char *str = "1234 124";
-  long val = getNumber(&str);
-  TEST_ASSERT_EQUAL(1234, val);
-} 
-
-void test_getNumber_given_0xffffffffff_expert_overflow(void)   
-{
-  char *str = "0xffffffffff";
   long val = getNumber(&str);
   TEST_ASSERT_EQUAL(-1, val);
 } 
