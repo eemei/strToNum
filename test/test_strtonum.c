@@ -8,7 +8,7 @@ void setUp(void){}
 
 void tearDown(void){}
 
-void test_strtonum_given_1234_abcd_and_expert_1234_basedTen(void)
+void test_strtonum_given_1234_abcd_and_expect_1234_basedTen(void)
 {
   char *ptr;
   long val;
@@ -17,7 +17,7 @@ void test_strtonum_given_1234_abcd_and_expert_1234_basedTen(void)
   TEST_ASSERT_EQUAL(1234, val);
 }
 
-void test_strtonum_given_8765(void)
+void test_strtonum_given_8765_abcd_expect_8756(void)
 {
   long val;
   char value2Parse[] =" 8756 abcd";
@@ -26,7 +26,7 @@ void test_strtonum_given_8765(void)
 }
 
 
-void test_strtonum_given_with_tab4567_opq(void)
+void test_strtonum_given_with__4567_abcd_expect_4567(void)
 {
   long val;
   char value2Parse[] ="\t\t4567 abcd";
@@ -34,7 +34,7 @@ void test_strtonum_given_with_tab4567_opq(void)
   TEST_ASSERT_EQUAL(4567, val);
 }
 
-void test_strtonum_given_0x345abc_abc_expert_0x345abc(void)
+void test_strtonum_given_0x34567_abc_expect_0(void)
 {
   long val;
   char *ptr; 
@@ -44,7 +44,7 @@ void test_strtonum_given_0x345abc_abc_expert_0x345abc(void)
      TEST_ASSERT_EQUAL(0, val);
 }
 
-void test_strtonum_given_0x23345abc_abc_expert_0x345abc(void)
+void test_strtonum_given_0x123456_abc_expect_whitespace(void)
 {
   long val;
   char *ptr; 
@@ -53,7 +53,7 @@ void test_strtonum_given_0x23345abc_abc_expert_0x345abc(void)
   TEST_ASSERT_EQUAL(' ',*ptr);
  } 
  
-void test_strtonum_given_0x23345abc_abc_expert_0x345abctest(void)
+void test_strtonum_given_write_0x123123_abc_expect_w(void)
 {
   long val;
   char *ptr; 
@@ -62,7 +62,7 @@ void test_strtonum_given_0x23345abc_abc_expert_0x345abctest(void)
   TEST_ASSERT_EQUAL('w',*ptr);
 }
 
-void test_strtonum_given_0x23345abc_abc_expert_0x345abctest12(void)
+void test_strtonum_given_0x123123_abc_expect_whitespace(void)
 {
   long val;
   char *ptr; 
@@ -72,7 +72,7 @@ void test_strtonum_given_0x23345abc_abc_expert_0x345abctest12(void)
 }
 
 
-void test_12strtonum_given_0x23345abc_abc_expert_0x345abctest12(void)
+void test_strtonum_given_write_0x123123_abc_expect_whitespace(void)
 {
   long val;
   char *ptr; 
@@ -81,7 +81,7 @@ void test_12strtonum_given_0x23345abc_abc_expert_0x345abctest12(void)
   TEST_ASSERT_EQUAL(' ',*ptr);
 }
 
-void test_12strtonum_given_0x23345abc_abc_expert_0x345abctest1212(void)
+void test_strtonum_given__0x124556__0x1234_123_expect_whitespace(void)
 {
   long val;
   char *ptr; 
@@ -90,12 +90,172 @@ void test_12strtonum_given_0x23345abc_abc_expert_0x345abctest1212(void)
   TEST_ASSERT_EQUAL(' ',*ptr);
 }
 
-void test_getNumber_given__0x124556_0x1234_123_expert_return_0x124556_0x1234_123(void)
+void test_string_compare_insensitive_given_wRite_and_write(void){
+  char *a = "wRite";
+  char *b = "write";
+  int cmp = strcmpInsensitive(a, b);
+  TEST_ASSERT_EQUAL(0, cmp);
+}
+void test_string_compare_insensitive_given_write_and_writee(void){
+  char *a = "write";
+  char *b = "writee";
+  int cmp = strcmpInsensitive(a, b);
+  TEST_ASSERT_EQUAL(-1, cmp);
+}
+void test_string_compare_insensitive_given_write_and_write(void){
+  char *a = "write";
+  char *b = "write";
+  int cmp = strcmpInsensitive(a, b);
+  TEST_ASSERT_EQUAL(0, cmp);
+}
+
+
+/*void test_getNumber_given_1234_234_123_expert_return_1234_234_123(void)
 {
-  char *str = "\t0x124556 0x1234 123";
-  long val = getNumber(&str);
-  TEST_ASSERT_EQUAL(1197398, val);
-  // getnum(str);
+  char str[] = "1234 234 123";
+  char *endptr = str;
+  long val = getNumber(&endptr);
+  
+  TEST_ASSERT_EQUAL(1234, val);
+  val = getNumber(&endptr);
+  TEST_ASSERT_EQUAL(234, val);
+  val = getNumber(&endptr);
+  TEST_ASSERT_EQUAL(123, val);
+} 
+
+void test_getNumber_given__1234_234__expert_return_1234_234(void)
+{
+  char str[] = "\t1234 234";
+  char *endptr = str;
+  long val;
+  
+  val  = getNumber(&endptr);
+  TEST_ASSERT_EQUAL(1234, val);
+  val = getNumber(&endptr);
+  TEST_ASSERT_EQUAL(234, val);
+} 
+
+void test_getNumber_given__1234_write_234__expert_return_1234_234(void)
+{
+  char str[] = "\t1234 write 234";
+  char *endptr = str;
+  long val;
+  
+  val  = getNumber(&endptr);
+  TEST_ASSERT_EQUAL(1234, val);
+  val = getNumber(&endptr);
+  TEST_ASSERT_EQUAL(234, val);
+} 
+
+void test_getNumber_given_0x1234_write_234__expert_return_0x1234_234(void)
+{
+  char str[] = "0x1234 write 234";
+  char *endptr = str;
+  long val;
+  
+  val  = getNumber(&endptr);
+  TEST_ASSERT_EQUAL(4660, val);
+  val = getNumber(&endptr);
+  TEST_ASSERT_EQUAL(234, val);
+}
+
+void test_getNumber_given_20x1234_write_234__expert_return_234(void)
+{
+  char str[] = "20x1234 write 234";
+  char *endptr = str;
+  long val;
+  
+  val  = getNumber(&endptr);
+  TEST_ASSERT_EQUAL(-1, val);
+  val = getNumber(&endptr);
+  TEST_ASSERT_EQUAL(234, val);
+}
+
+void test_getNumber_given_00000x1234_write_234__expert_return_234(void)
+{
+  char str[] = "00000x1234 write 234";
+  char *endptr = str;
+  long val;
+  
+  val  = getNumber(&endptr);
+  TEST_ASSERT_EQUAL(-1, val);
+  val = getNumber(&endptr);
+  TEST_ASSERT_EQUAL(234, val);
+}
+
+void test_getNumber_given__00000x1234_write__234__expert_return_234(void)
+{
+  char str[] = "\t00000x1234 write \t234";
+  char *endptr = str;
+  long val;
+  
+  val  = getNumber(&endptr);
+  TEST_ASSERT_EQUAL(-1, val);
+  val = getNumber(&endptr);
+  TEST_ASSERT_EQUAL(234, val);
+}
+
+void test_getNumber_given__0002300x1234_write__234__expert_return_234(void)
+{
+  char str[] = "\t0002300x1234 write \t234";
+  char *endptr = str;
+  long val;
+  
+  val  = getNumber(&endptr);
+  TEST_ASSERT_EQUAL(-1, val);
+  val = getNumber(&endptr);
+  TEST_ASSERT_EQUAL(234, val);
+} 
+
+void test_getNumber_given__0xffffffffff__write__234__expert_return_234(void)
+{
+  char str[] = "\t0xffffffffff \twrite \t234";
+  char *endptr = str;
+  long val;
+  
+  val  = getNumber(&endptr);
+  TEST_ASSERT_EQUAL(-1, val);
+  val = getNumber(&endptr);
+  TEST_ASSERT_EQUAL(234, val);
+} 
+void test_getNumber_given__ffffffffff__write__234__expert_return_234(void)
+{
+  char str[] = "\tffffffffff \twrite \t234";
+  char *endptr = str;
+  long val;
+  
+  val  = getNumber(&endptr);
+  TEST_ASSERT_EQUAL(234, val);
+} */
+
+void test_loop(void)
+{
+  char str[] = "124 125 126";
+  char *endptr = str;
+  int val;
+  
+  val = loop(&endptr);
+  TEST_ASSERT_EQUAL(3,val);
+} 
+
+void test_loop_with_2(void)
+{
+  char str[] = "124 write 0x125 126";
+  char *endptr = str;
+  int val;
+  
+  val = loop(&endptr);
+  TEST_ASSERT_EQUAL(3,val);
+} 
+
+void test_loop_with_3(void)
+{
+  char str[] = "20x124 write 0x125 126";
+  char *endptr = str;
+  int val;
+  
+  val = loop(&endptr);
+  TEST_ASSERT_EQUAL(2,val);
 } 
 
 void test_getNumber_given_write_expert_ERR(void)
@@ -114,14 +274,14 @@ void test_getNumber_given_write__0x123456_expert_ERR(void)
 
 void test_getNumber_given__0x123456_write_expert_ERR(void)
 {
-  char *str = "/t0x123456 write";
+  char *str = "\t0x123456 write";
   long val = getNumber(&str);
-  TEST_ASSERT_EQUAL(-1, val);
+  TEST_ASSERT_EQUAL(1193046, val);
 } 
 
 void test_getNumber_given__1x123456_write_expert_ERR(void)
 {
-  char *str = "/t1x123456 write";
+  char *str = "\t1x123456 write";
   long val = getNumber(&str);
   TEST_ASSERT_EQUAL(-1, val);
 } 
@@ -189,15 +349,63 @@ void test_getNumber_given_0xffffffffff_expert_overflow(void)
   TEST_ASSERT_EQUAL(-1, val);
 } 
 
-// void test_getNumber_given_0x123_123_expert_overflow(void)   
-// {
-  // char *str = "0x123 123";
-    // loop(&str);
-  // TEST_ASSERT_EQUAL(-1, val);
-// } 
 
- 
- 
- 
- 
+void test_sscanf_given_write_read(void)   
+{
+  char *str = "write read";
+  int n;
+  char data[15];
+  n = sscanf(str,"%s",data);
+  printf("%s\n\n", data);
+  TEST_ASSERT_EQUAL(1, n);
+} 
+
+void test_sscanf_given__test(void)   
+{
+  char *str = " \t test";
+  int n;
+  char data[100];
+  n = sscanf(str, "%*[ \t]%s", data);
+  printf("%s\n\n", data);
+  TEST_ASSERT_EQUAL(1,n);
+} 
+
+void test_sscanf_given__the_write(void)   
+{
+  char *str = "\t the write";
+  int n;
+  char data[100];
+  n = sscanf(str, "%*[\t] the %s", data);
+  printf("%s\n\n", data);
+  TEST_ASSERT_EQUAL(1,n);
+}  
+/*
+void xtest_getCharacter_given__writte(void){
+  int n;
+  char *str = "\t writte";
+  // n = getCharacter(&str);
+  TEST_ASSERT_EQUAL(-1,n);  
+}
+
+void xtest_getCharacter_given___write(void){
+  int n;
+  char *str = "\t write";
+  // n = getCharacter(&str);
+  TEST_ASSERT_EQUAL(1,n);  
+}
+
+void xtest_getCharacter_given_write(void){
+  int n;
+  char *str = " write";
+  // n = getCharacter(&str);
+  TEST_ASSERT_EQUAL(1,n);  
+}
+
+void xtest_getCharacter_given__write(void){
+  int n;
+  char *str = "  write";
+  // n = getCharacter(&str);
+  TEST_ASSERT_EQUAL(1,n);  
+}
+*/
  
