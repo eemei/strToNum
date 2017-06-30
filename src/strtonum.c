@@ -1,7 +1,19 @@
 #include "strtonum.h"
 
-
-int getNumber (char  **str)
+/**
+* getNumber with char **str argumnent and return int 
+* - return -1 
+*   when invalid hex value or end of string 
+*     -> example 00x12, 10x12, 01x123  
+* 
+* - return 2
+*   when given char is write or read 
+*   case insensitive
+*
+* - return val
+*   valid decimal value or hex value
+*/
+int getNumber(char  **str)
 {
   errno = 0;
   char *endptr;  //end pointer  
@@ -13,69 +25,126 @@ int getNumber (char  **str)
   char *aWrite = "write";
   char *bRead = "read"; 
   ptr = *str;
-
-  if (isdigit((unsigned char)*ptr))
+  char data[10];
+  char *receivestr;
+  if(*ptr != '\0')
   {
-    val = strtol(*str, &endptr, baseDecimal);
-    if(*ptr == '0')
+    if (isdigit((unsigned char)*ptr))
     {
-      detectHex = ptr;
-      (*detectHex++);
-      if(*detectHex == 'x'){
-        val = strtol(*str, &endptr, baseHex);
-        if((val == LONG_MAX || val == LONG_MIN) && errno == ERANGE)
-        {
+      val = strtol(*str, &endptr, baseDecimal);
+      if(*ptr == '0')
+      {
+        detectHex = ptr;
+        (*detectHex++);
+        if(*detectHex == 'x'){
+          val = strtol(*str, &endptr, baseHex);
+          if((val == LONG_MAX || val == LONG_MIN) && errno == ERANGE)
+          {
+            *str = endptr;
+            return -1;
+          }
           *str = endptr;
-          return -1;
+          return val;
         }
-        *str = endptr;
-        // getAdress(val);
-        return val;
+        else
+        {
+          if(*endptr == 'x')
+          {
+            while(*ptr != '\0')
+            {
+              if(*ptr == ' ')
+              {
+                *str = ptr;
+                return -1;
+              }
+              if(*ptr == '\t')
+              {
+                *str = ptr;
+                return -1;
+              }
+              *ptr++;
+            }
+            *str = ptr;
+            return -1;
+          }
+        }
       }
-      else
+      else 
       {
         if(*endptr == 'x')
         {
-          while(*ptr != ' ')
+          while(*ptr != '\0')
           {
+            if(*ptr == ' ')
+            {
+              *str = ptr;
+              return -1;
+            }
+            if(*ptr == '\t')
+            {
+              *str = ptr;
+              return -1;
+            }
             *ptr++;
           }
           *str = ptr;
           return -1;
+        }
       }
-        
-      }
+      *str = endptr;
+      return val;
     }
-    else 
-    {
-      if(*endptr == 'x')
-      {
-        while(*ptr != ' '){
+    if(isalpha((char)*ptr)){
+      sscanf(ptr, "%s", data);
+      if (strcmpInsensitive(aWrite, data) == 0){
+        while(*ptr != '\0')
+        {
+          if(*ptr == ' ')
+          {
+            *str = ptr;
+            return 2;
+          }
+          if(*ptr == '\t')
+          {
+            *str = ptr;
+            return 2;
+          }
           *ptr++;
         }
         *str = ptr;
-        return -1;
+        return 2;
       }
+      else if (strcmpInsensitive(bRead, data) == 0){
+        while(*ptr != '\0')
+        {
+          if(*ptr == ' ')
+          {
+            *str = ptr;
+            return 2;
+          }
+          if(*ptr == '\t')
+          {
+            *str = ptr;
+            return 2;
+          }
+          *ptr++;
+        }
+        *str = ptr;
+        return 2;
+      }
+      return -1;
     }
-    *str = endptr;
-    return val;
+    else
+    {
+      *ptr++;
+      *str = ptr;
+      getNumber (str); 
+    }
   }
-  if(isalpha((char)*ptr)){
-    // if(strcmpInsensitive(aWrite, str) ==  0){
-      // return (char)ptr;
-      
-    // }
-    *ptr++;
-    *str = ptr;
-    getNumber (str); 
-  }
-  else
-  {
-    *ptr++;
-    *str = ptr;
-    getNumber (str); 
-  }
+  else 
+    return -1;
 }
+
 
 int strcmpInsensitive(char* a, char* b)
 {
@@ -83,10 +152,7 @@ int strcmpInsensitive(char* a, char* b)
   cmp = strcmpi(a, b);
   return cmp;
 }
-
-// int getAdress(long int val){
-  // return val;
-// }  
+ 
 
 int loop(char **str){
   char *ptr;
@@ -99,31 +165,11 @@ int loop(char **str){
     ptr = *str;
     if(val != -1)
     {
-    i++;
+      if(val != 2)
+      {
+        i+=1;
+      }   
     }
   }
   return i;
 }
-
-// int getCharacter(char **str){
-  // int len = strlen (*str) + 1;
-  // char *buffer = malloc (len);
-  // char *write = "write";
-  // char *read = "read";
-  // char *ptr;
-  // int  n;
-  
-  // ptr = *str;
-  // if(*ptr == '\t'){
-    // n = sscanf(*str, "%*[\t]%s", buffer);
-    // printf("data = '%s'\n",buffer);
-    // if(n == 1)
-    // {
-      // for (i = 0; i > len; i++){
-        // if(buffer[i] == write[i])
-      // }
-      
-    // }
-  // return -1;
-  // }
-// }

@@ -110,124 +110,6 @@ void test_string_compare_insensitive_given_write_and_write(void){
 }
 
 
-/*void test_getNumber_given_1234_234_123_expect_return_1234_234_123(void)
-{
-  char str[] = "1234 234 123";
-  char *endptr = str;
-  long val = getNumber(&endptr);
-  
-  TEST_ASSERT_EQUAL(1234, val);
-  val = getNumber(&endptr);
-  TEST_ASSERT_EQUAL(234, val);
-  val = getNumber(&endptr);
-  TEST_ASSERT_EQUAL(123, val);
-} 
-
-void test_getNumber_given__1234_234__expect_return_1234_234(void)
-{
-  char str[] = "\t1234 234";
-  char *endptr = str;
-  long val;
-  
-  val  = getNumber(&endptr);
-  TEST_ASSERT_EQUAL(1234, val);
-  val = getNumber(&endptr);
-  TEST_ASSERT_EQUAL(234, val);
-} 
-
-void test_getNumber_given__1234_write_234__expect_return_1234_234(void)
-{
-  char str[] = "\t1234 write 234";
-  char *endptr = str;
-  long val;
-  
-  val  = getNumber(&endptr);
-  TEST_ASSERT_EQUAL(1234, val);
-  val = getNumber(&endptr);
-  TEST_ASSERT_EQUAL(234, val);
-} 
-
-void test_getNumber_given_0x1234_write_234__expect_return_0x1234_234(void)
-{
-  char str[] = "0x1234 write 234";
-  char *endptr = str;
-  long val;
-  
-  val  = getNumber(&endptr);
-  TEST_ASSERT_EQUAL(4660, val);
-  val = getNumber(&endptr);
-  TEST_ASSERT_EQUAL(234, val);
-}
-
-void test_getNumber_given_20x1234_write_234__expect_return_234(void)
-{
-  char str[] = "20x1234 write 234";
-  char *endptr = str;
-  long val;
-  
-  val  = getNumber(&endptr);
-  TEST_ASSERT_EQUAL(-1, val);
-  val = getNumber(&endptr);
-  TEST_ASSERT_EQUAL(234, val);
-}
-
-void test_getNumber_given_00000x1234_write_234__expect_return_234(void)
-{
-  char str[] = "00000x1234 write 234";
-  char *endptr = str;
-  long val;
-  
-  val  = getNumber(&endptr);
-  TEST_ASSERT_EQUAL(-1, val);
-  val = getNumber(&endptr);
-  TEST_ASSERT_EQUAL(234, val);
-}
-
-void test_getNumber_given__00000x1234_write__234__expect_return_234(void)
-{
-  char str[] = "\t00000x1234 write \t234";
-  char *endptr = str;
-  long val;
-  
-  val  = getNumber(&endptr);
-  TEST_ASSERT_EQUAL(-1, val);
-  val = getNumber(&endptr);
-  TEST_ASSERT_EQUAL(234, val);
-}
-
-void test_getNumber_given__0002300x1234_write__234__expect_return_234(void)
-{
-  char str[] = "\t0002300x1234 write \t234";
-  char *endptr = str;
-  long val;
-  
-  val  = getNumber(&endptr);
-  TEST_ASSERT_EQUAL(-1, val);
-  val = getNumber(&endptr);
-  TEST_ASSERT_EQUAL(234, val);
-} 
-
-void test_getNumber_given__0xffffffffff__write__234__expect_return_234(void)
-{
-  char str[] = "\t0xffffffffff \twrite \t234";
-  char *endptr = str;
-  long val;
-  
-  val  = getNumber(&endptr);
-  TEST_ASSERT_EQUAL(-1, val);
-  val = getNumber(&endptr);
-  TEST_ASSERT_EQUAL(234, val);
-} 
-void test_getNumber_given__ffffffffff__write__234__expect_return_234(void)
-{
-  char str[] = "\tffffffffff \twrite \t234";
-  char *endptr = str;
-  long val;
-  
-  val  = getNumber(&endptr);
-  TEST_ASSERT_EQUAL(234, val);
-} */
-
 void test_loop(void)
 {
   char str[] = "124 125 126";
@@ -258,33 +140,70 @@ void test_loop_with_3(void)
   TEST_ASSERT_EQUAL(2,val);
 } 
 
-/* void test_getNumber_given_write_expect_ERR(void)
-{
-  char *str = "write";
-  long val = getNumber(&str);
-  TEST_ASSERT_EQUAL(-1, val);
-}  */
 
-/* void test_getNumber_given_write__0x123456_expect_ERR(void)
+void test_getNumber_given_write_expect_ERR(void)
 {
-  char *str = "write\t0x123456";
+  char *str = "wrITe";
   long val = getNumber(&str);
+  TEST_ASSERT_EQUAL(2, val);
+  val = getNumber(&str);
   TEST_ASSERT_EQUAL(-1, val);
-}  */
+}  
+
+void test_getNumber_given_write__0x123456_expect_ERR(void)
+{
+  char *str = "write\t0x123456\t";
+  long val = getNumber(&str);
+  TEST_ASSERT_EQUAL(2, val);
+  val = getNumber(&str);
+  TEST_ASSERT_EQUAL(1193046, val);
+  val = getNumber(&str);
+  TEST_ASSERT_EQUAL(-1, val);
+}  
 
 void test_getNumber_given__0x123456_write_expect_ERR(void)
 {
-  char *str = "\t0x123456 write";
+  char *str = "\t0x123456 write ";
   long val = getNumber(&str);
   TEST_ASSERT_EQUAL(1193046, val);  
+  val = getNumber(&str);
+  TEST_ASSERT_EQUAL(2, val);
   val = getNumber(&str);
   TEST_ASSERT_EQUAL(-1, val);
 } 
 
-void test_getNumber_given__1x123456_write_expect_ERR(void)
+void test_getNumber_given__0x123456_writ_expect_ERR(void)
 {
-  char *str = "\t1x123456 write";
+  char *str = "\t0x123456 writ ";
   long val = getNumber(&str);
+  TEST_ASSERT_EQUAL(1193046, val);  
+  val = getNumber(&str);
+  TEST_ASSERT_EQUAL(-1, val);
+  val = getNumber(&str);
+  TEST_ASSERT_EQUAL(-1, val);
+} 
+
+void test_getNumber_given_123456_reaD_expect_ERR(void)
+{
+  char *str = "123456 reaD";
+  long val = getNumber(&str);
+  TEST_ASSERT_EQUAL(123456, val);  
+  val = getNumber(&str);
+  TEST_ASSERT_EQUAL(2, val);
+  val = getNumber(&str);
+  TEST_ASSERT_EQUAL(-1, val);
+} 
+
+void test_getNumber_given__1x123456_wrITe_00x123_expect_ERR(void)
+{
+  char *str = "\t1x123456 wrIte 00x123";
+  long val = getNumber(&str);
+  TEST_ASSERT_EQUAL(-1, val);
+  val = getNumber(&str);
+  TEST_ASSERT_EQUAL(2, val);
+  val = getNumber(&str);
+  TEST_ASSERT_EQUAL(-1, val);
+  val = getNumber(&str);
   TEST_ASSERT_EQUAL(-1, val);
 } 
 
@@ -293,15 +212,31 @@ void test_getNumber_given_0x1_expect_1(void)
   char *str = "0x1";
   long val = getNumber(&str);
   TEST_ASSERT_EQUAL(1, val);
+  val = getNumber(&str);
+  TEST_ASSERT_EQUAL(-1, val);  
 } 
 
-void test_getNumber_given_20x1234_expect_ERR(void)   
+void test_getNumber_given_20x1234_124_expect_ERR(void)   
 {
   char *str = "20x1234 124";
   long val = getNumber(&str);
   TEST_ASSERT_EQUAL(-1, val);
+  val = getNumber(&str);
+  TEST_ASSERT_EQUAL(124, val);
+  val = getNumber(&str);
+  TEST_ASSERT_EQUAL(-1, val);
 } 
 
+void test_getNumber_given_02x1234_expect_ERR(void)   
+{
+  char *str = "02x1234\t";
+  long val = getNumber(&str);
+  TEST_ASSERT_EQUAL(-1, val);
+  val = getNumber(&str);
+  TEST_ASSERT_EQUAL(-1, val);
+} 
+
+//sscanf
 
 void test_sscanf_given_write_read(void)   
 {
@@ -332,33 +267,5 @@ void test_sscanf_given__the_write(void)
   printf("%s\n\n", data);
   TEST_ASSERT_EQUAL(1,n);
 }  
-/*
-void xtest_getCharacter_given__writte(void){
-  int n;
-  char *str = "\t writte";
-  // n = getCharacter(&str);
-  TEST_ASSERT_EQUAL(-1,n);  
-}
 
-void xtest_getCharacter_given___write(void){
-  int n;
-  char *str = "\t write";
-  // n = getCharacter(&str);
-  TEST_ASSERT_EQUAL(1,n);  
-}
-
-void xtest_getCharacter_given_write(void){
-  int n;
-  char *str = " write";
-  // n = getCharacter(&str);
-  TEST_ASSERT_EQUAL(1,n);  
-}
-
-void xtest_getCharacter_given__write(void){
-  int n;
-  char *str = "  write";
-  // n = getCharacter(&str);
-  TEST_ASSERT_EQUAL(1,n);  
-}
-*/
  
