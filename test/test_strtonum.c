@@ -236,6 +236,32 @@ void test_getNumber_given_02x1234_expect_ERR(void)
   TEST_ASSERT_EQUAL(-1, val);
 } 
 
+void test_getNumber_given_write__0x1234_0x1_1_3expect_ERR(void)   
+{
+  char *str = "write \t 0x1234 0x1 1 3 ";
+  long val = getNumber(&str);
+  TEST_ASSERT_EQUAL(2, val);
+  val = getNumber(&str);
+  TEST_ASSERT_EQUAL(4660, val);
+  val = getNumber(&str);
+  TEST_ASSERT_EQUAL(1, val);
+  val = getNumber(&str);
+  TEST_ASSERT_EQUAL(1, val);
+  val = getNumber(&str);
+  TEST_ASSERT_EQUAL(3, val);
+  val = getNumber(&str);
+  TEST_ASSERT_EQUAL(-1, val);
+} 
+void test_loop_given_write__0x1234_0x1_1_3expect_ERR(void)   
+{
+  char str[] = "write \t 0x1234 0x1 1 3 ";
+  char *endptr = str;
+  int val;
+  
+  val = loop(&endptr);
+  TEST_ASSERT_EQUAL(4,val);
+} 
+
 //sscanf
 
 void test_sscanf_given_write_read(void)   
@@ -267,5 +293,3 @@ void test_sscanf_given__the_write(void)
   printf("%s\n\n", data);
   TEST_ASSERT_EQUAL(1,n);
 }  
-
- 

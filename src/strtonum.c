@@ -145,7 +145,9 @@ int getNumber(char  **str)
     return -1;
 }
 
-
+/**
+* compare two strings which in case insensitive
+*/
 int strcmpInsensitive(char* a, char* b)
 {
   int cmp;
@@ -153,6 +155,9 @@ int strcmpInsensitive(char* a, char* b)
   return cmp;
 }
  
+ /**
+ this function return how many byte data that is valid value and character  
+ */
 
 int loop(char **str){
   char *ptr;
