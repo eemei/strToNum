@@ -1,5 +1,19 @@
 #include "strtonum.h"
 
+
+/**
+Using the C library routine strtol:
+     A command is a word separated by spaces or tab.  A word separated by certain characters (like space or tab) is called a token.
+     To get tokens one by one, I use the C lib routing strtol (part of C stdlib.h see below how to include it).
+         It's part of C language library <string.h> which you can look up online.  Basically you:
+            1) pass it a string (and the delimeters you use, i.e. space and tab) and it will return the first token from the string
+            2) on subsequent calls, pass it NULL (instead of the string ptr) and it will continue where it left off with the initial string.
+      I've written a couple of basic helper routines:
+          getNumber: uses strtol and sscanf (strtol: base 2,8, 10, 16 to long int, again part of C stdlib.h) to return an long integer.
+          loop: returns how many valid value
+
+*/
+
 /**
 * getNumber with char **str argumnent and return int 
 * - return -1 
@@ -36,7 +50,7 @@ int getNumber(char  **str)
       {
         detectHex = ptr;
         (*detectHex++);
-        if(*detectHex == 'x'){
+        if(*detectHex == 'x' || *detectHex == 'X'){
           val = strtol(*str, &endptr, baseHex);
           if((val == LONG_MAX || val == LONG_MIN) && errno == ERANGE)
           {
@@ -48,7 +62,7 @@ int getNumber(char  **str)
         }
         else
         {
-          if(*endptr == 'x')
+          if(*endptr == 'x' || *endptr == 'X')
           {
             while(*ptr != '\0')
             {
@@ -71,7 +85,7 @@ int getNumber(char  **str)
       }
       else 
       {
-        if(*endptr == 'x')
+        if(*endptr == 'x'|| *endptr == 'X')
         {
           while(*ptr != '\0')
           {

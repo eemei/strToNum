@@ -150,6 +150,17 @@ void test_getNumber_given_write_expect_ERR(void)
   TEST_ASSERT_EQUAL(-1, val);
 }  
 
+void test_getNumber_given_write__0X123456_expect_ERR(void)
+{
+  char *str = "write\t0X123456\t";
+  long val = getNumber(&str);
+  TEST_ASSERT_EQUAL(2, val);
+  val = getNumber(&str);
+  TEST_ASSERT_EQUAL(1193046, val);
+  val = getNumber(&str);
+  TEST_ASSERT_EQUAL(-1, val);
+}  
+
 void test_getNumber_given_write__0x123456_expect_ERR(void)
 {
   char *str = "write\t0x123456\t";
